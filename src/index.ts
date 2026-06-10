@@ -1,9 +1,23 @@
 import { preguntar } from './lib/consola.ts';
 import { cifrar, descifrar } from './lib/funcionesCriptográficas.ts';
 
-let palabra: string = ''; // Preguntar por la palabra a cifrar o descifrar
-let claveTexto: string = ''; // Preguntar por la clave de cifrado (número)
-let accion: string = ''; // Preguntar si se desea cifrar o descifrar (cifrar/descifrar)
+(async () => {
+  const palabra: string = await preguntar('Ingresa una palabra: ');
 
-let resultado: string = ''; // COMPLETAR
-console.log(resultado);
+  const claveTexto: string = await preguntar('Ingresa la clave: ');
+  const clave: number = parseInt(claveTexto, 10);
+
+  const accion: string = await preguntar('¿Que querés hacer? (cifrar/descifrar): ');
+
+  let resultado: string = '';
+  if (accion === 'cifrar') {
+    resultado = cifrar(palabra, clave);
+  } else if (accion === 'descifrar') {
+    resultado = descifrar(palabra, clave);
+  } else {
+    console.log('Accion no valida. Por favor, elegi "cifrar" o "descifrar".');
+    process.exit(1);
+  }
+
+  console.log(resultado);
+})();
